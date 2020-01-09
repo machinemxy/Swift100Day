@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="vBA-dU-jE1">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="GuessTheFlag" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="meN-x8-XPD">
+                                <rect key="frame" x="107" y="175" width="200" height="100"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="200" id="4bY-Ct-JII"/>
+                                    <constraint firstAttribute="height" constant="100" id="qpy-sX-Bsh"/>
+                                </constraints>
+                                <state key="normal" title="Button" image="estonia"/>
+                                <connections>
+                                    <action selector="buttonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="rpd-dJ-ERb"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dLI-1v-Znm">
+                                <rect key="frame" x="107" y="305" width="200" height="100"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="100" id="52K-qX-6wl"/>
+                                    <constraint firstAttribute="width" constant="200" id="kfr-A8-Z8V"/>
+                                </constraints>
+                                <state key="normal" title="Button" image="estonia"/>
+                                <connections>
+                                    <action selector="buttonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="KV0-1E-w4J"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="REC-n7-NOi">
+                                <rect key="frame" x="107" y="435" width="200" height="100"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="200" id="OPo-hu-bxM"/>
+                                    <constraint firstAttribute="height" constant="100" id="Rwx-mt-2AN"/>
+                                </constraints>
+                                <state key="normal" title="Button" image="estonia"/>
+                                <connections>
+                                    <action selector="buttonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="LYW-k2-omp"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Score: 0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Jn1-Ek-Ykb">
+                                <rect key="frame" x="167" y="118" width="80" height="27"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleTitle2"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="Jn1-Ek-Ykb" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="2A9-Mu-d5a"/>
+                            <constraint firstItem="dLI-1v-Znm" firstAttribute="top" secondItem="meN-x8-XPD" secondAttribute="bottom" constant="30" id="3UW-WV-AX0"/>
+                            <constraint firstItem="Jn1-Ek-Ykb" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="30" id="ERW-Gy-qea"/>
+                            <constraint firstItem="dLI-1v-Znm" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="H4L-F5-nsF"/>
+                            <constraint firstItem="meN-x8-XPD" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="QdM-A8-pW0"/>
+                            <constraint firstItem="REC-n7-NOi" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="dxf-ve-4qb"/>
+                            <constraint firstItem="meN-x8-XPD" firstAttribute="top" secondItem="Jn1-Ek-Ykb" secondAttribute="bottom" constant="30" id="iJc-Z3-zjY"/>
+                            <constraint firstItem="REC-n7-NOi" firstAttribute="top" secondItem="dLI-1v-Znm" secondAttribute="bottom" constant="30" id="xIk-q9-Uf9"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="gmc-sc-pOe"/>
+                    <connections>
+                        <outlet property="button1" destination="meN-x8-XPD" id="00T-aw-Rdb"/>
+                        <outlet property="button2" destination="dLI-1v-Znm" id="KD6-yM-Ywe"/>
+                        <outlet property="button3" destination="REC-n7-NOi" id="Roh-gp-Sck"/>
+                        <outlet property="scoreLabel" destination="Jn1-Ek-Ykb" id="N8r-22-ukv"/>
+                        <segue destination="jCC-WB-dHi" kind="show" identifier="showFinalScore" id="1aa-g5-AjO"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="672" y="123"/>
+        </scene>
+        <!--Final Score View Controller-->
+        <scene sceneID="4N3-qS-crr">
+            <objects>
+                <viewController id="jCC-WB-dHi" customClass="FinalScoreViewController" customModule="GuessTheFlag" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="UJ0-Mc-tSf">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your final score is 0." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="I6S-e7-GxS">
+                                <rect key="frame" x="87.5" y="431" width="239" height="34"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="I6S-e7-GxS" firstAttribute="centerY" secondItem="UJ0-Mc-tSf" secondAttribute="centerY" id="Oc4-rt-O7k"/>
+                            <constraint firstItem="I6S-e7-GxS" firstAttribute="centerX" secondItem="UJ0-Mc-tSf" secondAttribute="centerX" id="kbL-fq-bE3"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="55O-4U-udm"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="s7y-fR-JiM"/>
+                    <connections>
+                        <outlet property="finalScoreLabel" destination="I6S-e7-GxS" id="wLx-ty-vd8"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="JT2-Y3-hWH" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1572" y="123"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="5hM-d0-DrA">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="vBA-dU-jE1" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="GXw-yu-xVb">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="g7M-EE-P0x"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="fYQ-6Q-Cho" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-212" y="123"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="estonia" width="200" height="100"/>
+    </resources>
+</document>
