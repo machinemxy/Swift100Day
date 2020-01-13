@@ -15,11 +15,18 @@ class FinalScoreViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(shareTapped))
+        
         if let finalScore = finalScore {
             finalScoreLabel.text = "Your final score is \(finalScore)."
         }
     }
     
+    @objc func shareTapped() {
+        let vc = UIActivityViewController(activityItems: ["I got \(finalScore!) points in Guess the Flag. Try it now!"], applicationActivities: [])
+        vc.popoverPresentationController?.barButtonItem = navigationItem.rightBarButtonItem
+        present(vc, animated: true)
+    }
 
     /*
     // MARK: - Navigation

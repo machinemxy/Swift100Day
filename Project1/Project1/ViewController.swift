@@ -16,6 +16,7 @@ class ViewController: UITableViewController {
         
         title = "Storm Viewer"
         navigationController?.navigationBar.prefersLargeTitles = true
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(shareTapped))
         
         let fm = FileManager.default
         let path = Bundle.main.resourcePath!
@@ -46,6 +47,16 @@ class ViewController: UITableViewController {
             vc.viewTitle = "Picture \(indexPath.row + 1) of \(pictures.count)"
             navigationController?.pushViewController(vc, animated: true)
         }
+    }
+    
+    @objc func shareTapped() {
+        guard let url = URL(string: "https://itunes.apple.com/us/app/pure-darts-scoreboard/id1450064262?mt=8") else {
+            return
+        }
+
+        let vc = UIActivityViewController(activityItems: ["Try my new app: Pure Darts Scoreboard!", url], applicationActivities: [])
+        vc.popoverPresentationController?.barButtonItem = navigationItem.rightBarButtonItem
+        present(vc, animated: true)
     }
 }
 

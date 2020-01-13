@@ -30,8 +30,6 @@ class ViewController: UIViewController {
         button1.layer.borderColor = UIColor.lightGray.cgColor
         button2.layer.borderColor = UIColor.lightGray.cgColor
         button3.layer.borderColor = UIColor.lightGray.cgColor
-        
-        askQuestion()
     }
     
     override func viewWillAppear(_ animated: Bool) {
