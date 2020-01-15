@@ -13,6 +13,8 @@
 		22AE0C3023CF46D2001DFA8A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 22AE0C2E23CF46D2001DFA8A /* Main.storyboard */; };
 		22AE0C3223CF46D3001DFA8A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 22AE0C3123CF46D3001DFA8A /* Assets.xcassets */; };
 		22AE0C3523CF46D3001DFA8A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 22AE0C3323CF46D3001DFA8A /* LaunchScreen.storyboard */; };
+		22AE0C3D23CF5272001DFA8A /* WebSite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22AE0C3C23CF5272001DFA8A /* WebSite.swift */; };
+		22AE0C3F23CF533C001DFA8A /* AllowListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22AE0C3E23CF533C001DFA8A /* AllowListTableViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +26,8 @@
 		22AE0C3123CF46D3001DFA8A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		22AE0C3423CF46D3001DFA8A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		22AE0C3623CF46D3001DFA8A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		22AE0C3C23CF5272001DFA8A /* WebSite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSite.swift; sourceTree = "<group>"; };
+		22AE0C3E23CF533C001DFA8A /* AllowListTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllowListTableViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,7 +62,9 @@
 			children = (
 				22AE0C2823CF46D2001DFA8A /* AppDelegate.swift */,
 				22AE0C2A23CF46D2001DFA8A /* SceneDelegate.swift */,
+				22AE0C3E23CF533C001DFA8A /* AllowListTableViewController.swift */,
 				22AE0C2C23CF46D2001DFA8A /* ViewController.swift */,
+				22AE0C3C23CF5272001DFA8A /* WebSite.swift */,
 				22AE0C2E23CF46D2001DFA8A /* Main.storyboard */,
 				22AE0C3123CF46D3001DFA8A /* Assets.xcassets */,
 				22AE0C3323CF46D3001DFA8A /* LaunchScreen.storyboard */,
@@ -139,8 +145,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				22AE0C2D23CF46D2001DFA8A /* ViewController.swift in Sources */,
+				22AE0C3F23CF533C001DFA8A /* AllowListTableViewController.swift in Sources */,
 				22AE0C2923CF46D2001DFA8A /* AppDelegate.swift in Sources */,
 				22AE0C2B23CF46D2001DFA8A /* SceneDelegate.swift in Sources */,
+				22AE0C3D23CF5272001DFA8A /* WebSite.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
