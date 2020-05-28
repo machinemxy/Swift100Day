@@ -16,6 +16,7 @@ class ViewController: UITableViewController {
         super.viewDidLoad()
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(promptForAnswer))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(startGame))
         
         if let startWordsURL = Bundle.main.url(forResource: "start", withExtension: "txt") {
             if let startWords = try? String(contentsOf: startWordsURL) {
@@ -30,7 +31,7 @@ class ViewController: UITableViewController {
         startGame()
     }
 
-    func startGame() {
+    @objc func startGame() {
         title = allWords.randomElement()
         userdWords.removeAll(keepingCapacity: true)
         tableView.reloadData()
@@ -58,7 +59,73 @@ class ViewController: UITableViewController {
     }
     
     func submit(_ answer: String) {
+        let lowerAnswer = answer.lowercased()
         
+        guard isOriginal(word: lowerAnswer) else {
+            alert(title: "Word already used", message: "Be more original!")
+            return
+        }
+        
+        guard isLongEnough(word: lowerAnswer, minLength: 3) else {
+            alert(title: "Word not long enough", message: "It should be at least 3 letters.")
+            return
+        }
+        
+        guard isDiffrentWithOriginWord(word: lowerAnswer) else {
+            alert(title: "Word illegal", message: "You cannot input the original word.")
+            return
+        }
+        
+        guard isPossible(word: lowerAnswer) else {
+            alert(title: "Word not possible", message: "You can't spell that word from \(title!.lowercased())")
+            return
+        }
+        
+        guard isReal(word: lowerAnswer) else {
+            alert(title: "Word not recognized", message: "You can't just make them up, you know!")
+            return
+        }
+        
+        userdWords.insert(lowerAnswer, at: 0)
+        tableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
+    }
+    
+    func isOriginal(word: String) -> Bool {
+        return !userdWords.contains(word)
+    }
+    
+    func isPossible(word: String) -> Bool {
+        var tempWord = title!.lowercased()
+        for letter in word {
+            if let position = tempWord.firstIndex(of: letter) {
+                tempWord.remove(at: position)
+            } else {
+                return false
+            }
+        }
+        
+        return true
+    }
+    
+    func isReal(word: String) -> Bool {
+        let checker = UITextChecker()
+        let range = NSRange(location: 0, length: word.utf16.count)
+        let misspelledRange = checker.rangeOfMisspelledWord(in: word, range: range, startingAt: 0, wrap: false, language: "en")
+        return misspelledRange.location == NSNotFound
+    }
+    
+    func isDiffrentWithOriginWord(word: String) -> Bool {
+        word != title!.lowercased()
+    }
+    
+    func isLongEnough(word: String, minLength: Int) -> Bool {
+        word.count >= minLength
+    }
+    
+    func alert(title: String, message: String) {
+        let ac = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        ac.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        present(ac, animated: true)
     }
 }
 
