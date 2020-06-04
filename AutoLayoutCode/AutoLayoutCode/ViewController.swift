@@ -51,7 +51,7 @@ class ViewController: UIViewController {
             NSLayoutConstraint.activate([
                 label.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
                 label.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-                label.heightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.heightAnchor, multiplier: 0.2, constant: -10)
+                label.heightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.heightAnchor, multiplier: 0.2, constant: -padding)
             ])
             
             if let previous = previous {
