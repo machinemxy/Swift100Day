@@ -15,6 +15,7 @@
 		22D4E49E248A949100FCCF89 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 22D4E49C248A949100FCCF89 /* LaunchScreen.storyboard */; };
 		22D4E4A7248D24B300FCCF89 /* level1.txt in Resources */ = {isa = PBXBuildFile; fileRef = 22D4E4A5248D24B300FCCF89 /* level1.txt */; };
 		22D4E4A8248D24B300FCCF89 /* level2.txt in Resources */ = {isa = PBXBuildFile; fileRef = 22D4E4A6248D24B300FCCF89 /* level2.txt */; };
+		22EC35CD248DE975002F7C60 /* UIButtonExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22EC35CC248DE975002F7C60 /* UIButtonExt.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 		22D4E49F248A949100FCCF89 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		22D4E4A5248D24B300FCCF89 /* level1.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = level1.txt; sourceTree = "<group>"; };
 		22D4E4A6248D24B300FCCF89 /* level2.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = level2.txt; sourceTree = "<group>"; };
+		22EC35CC248DE975002F7C60 /* UIButtonExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIButtonExt.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,6 +66,7 @@
 				22D4E493248A949000FCCF89 /* SceneDelegate.swift */,
 				22D4E495248A949000FCCF89 /* ViewController.swift */,
 				22D4E497248A949000FCCF89 /* Main.storyboard */,
+				22EC35CC248DE975002F7C60 /* UIButtonExt.swift */,
 				22D4E49A248A949100FCCF89 /* Assets.xcassets */,
 				22D4E49C248A949100FCCF89 /* LaunchScreen.storyboard */,
 				22D4E49F248A949100FCCF89 /* Info.plist */,
@@ -149,6 +152,7 @@
 				22D4E496248A949000FCCF89 /* ViewController.swift in Sources */,
 				22D4E492248A949000FCCF89 /* AppDelegate.swift in Sources */,
 				22D4E494248A949000FCCF89 /* SceneDelegate.swift in Sources */,
+				22EC35CD248DE975002F7C60 /* UIButtonExt.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

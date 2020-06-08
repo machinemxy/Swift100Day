@@ -23,6 +23,7 @@ class ViewController: UIViewController {
             scoreLabel.text = "Score \(score)"
         }
     }
+    var questionCount = 0
     var level = 1
     
     override func viewDidLoad() {
@@ -70,12 +71,14 @@ class ViewController: UIViewController {
         submit.translatesAutoresizingMaskIntoConstraints = false
         submit.setTitle("SUBMIT", for: .normal)
         submit.addTarget(self, action: #selector(submitTapped(_:)), for: .touchUpInside)
+        submit.drawGrayLines()
         view.addSubview(submit)
         
         let clear = UIButton(type: .system)
         clear.translatesAutoresizingMaskIntoConstraints = false
         clear.setTitle("CLEAR", for: .normal)
         clear.addTarget(self, action: #selector(clearTapped(_:)), for: .touchUpInside)
+        clear.drawGrayLines()
         view.addSubview(clear)
         
         let buttonsView = UIView()
@@ -120,6 +123,7 @@ class ViewController: UIViewController {
                 
                 let frame = CGRect(x: column * width, y: row * height, width: width, height: height)
                 letterButton.frame = frame
+                letterButton.drawGrayLines()
                 buttonsView.addSubview(letterButton)
                 letterButtons.append(letterButton)
             }
@@ -146,12 +150,19 @@ class ViewController: UIViewController {
             
             currentAnswer.text = ""
             score += 1
+            questionCount += 1
             
-            if score % 7 == 0 {
+            if questionCount % 7 == 0 {
                 let ac = UIAlertController(title: "Well done!", message: "Are you ready for the next level?", preferredStyle: .alert)
                 ac.addAction(UIAlertAction(title: "Let's go!", style: .default, handler: levelUp))
                 present(ac, animated: true)
             }
+        } else {
+            // wrong answer
+            score -= 1
+            let ac = UIAlertController(title: "Wrong!", message: "Your answer is wrong!", preferredStyle: .alert)
+            ac.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            present(ac, animated: true)
         }
     }
     
