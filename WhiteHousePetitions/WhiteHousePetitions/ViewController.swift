@@ -22,15 +22,20 @@ class ViewController: UITableViewController {
         } else {
             urlString = "https://www.hackingwithswift.com/samples/petitions-2.json"
         }
-        guard let url = URL(string: urlString) else {
-            showError()
-            return
+        
+        DispatchQueue.global(qos: .userInitiated).async { [unowned self] in
+            guard let url = URL(string: self.urlString) else {
+                self.showError()
+                return
+            }
+            
+            guard let data = try? Data(contentsOf: url) else {
+                self.showError()
+                return
+            }
+            
+            self.parse(json: data)
         }
-        guard let data = try? Data(contentsOf: url) else {
-            showError()
-            return
-        }
-        parse(json: data)
         
         // configure right button
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Credit", style: .plain, target: self, action: #selector(showCredit))
@@ -49,16 +54,20 @@ class ViewController: UITableViewController {
     }
     
     func showError() {
-        let ac = UIAlertController(title: "Loading error", message: "There was a problem loading the feed; please check your connection and try again.", preferredStyle: .alert)
-        ac.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-        present(ac, animated: true)
+        DispatchQueue.main.async { [unowned self] in
+            let ac = UIAlertController(title: "Loading error", message: "There was a problem loading the feed; please check your connection and try again.", preferredStyle: .alert)
+            ac.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            self.present(ac, animated: true)
+        }
     }
     
     func parse(json: Data) {
         let decoder = JSONDecoder()
         if let jsonPetitions = try? decoder.decode(Petitions.self, from: json) {
             petitions = jsonPetitions.results
-            tableView.reloadData()
+            DispatchQueue.main.async { [unowned self] in
+                self.tableView.reloadData()
+            }
         }
     }
 
@@ -102,12 +111,17 @@ extension ViewController: UISearchResultsUpdating {
             return
         }
         
-        isSearching = true
-        let lowCaseFilter = filter.lowercased()
-        filteredPetitions = petitions.filter({ (p) -> Bool in
-            p.title.lowercased().contains(lowCaseFilter)
-        })
-        tableView.reloadData()
+        DispatchQueue.global(qos: .userInitiated).async { [unowned self] in
+            self.isSearching = true
+            let lowCaseFilter = filter.lowercased()
+            self.filteredPetitions = self.petitions.filter({ (p) -> Bool in
+                p.title.lowercased().contains(lowCaseFilter)
+            })
+            
+            DispatchQueue.main.async { [unowned self] in
+                self.tableView.reloadData()
+            }
+        }
     }
 }
 

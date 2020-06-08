@@ -21,7 +21,12 @@ class DetailViewController: UIViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(shareTapped))
         
         if let imageToLoad = selectedImage {
-            imageView.image = UIImage(named: imageToLoad)
+            DispatchQueue.global(qos: .userInitiated).async {
+                let image = UIImage(named: imageToLoad)
+                DispatchQueue.main.async { [unowned self] in
+                    self.imageView.image = image
+                }
+            }
         }
     }
     
