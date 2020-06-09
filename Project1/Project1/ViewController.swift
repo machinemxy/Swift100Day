@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UITableViewController {
+class ViewController: UICollectionViewController {
     var pictures = [String]()
     
     override func viewDidLoad() {
@@ -31,20 +31,22 @@ class ViewController: UITableViewController {
         pictures.sort()
     }
 
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return pictures.count
     }
 
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Picture", for: indexPath)
-        cell.textLabel?.text = pictures[indexPath.row]
+    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Picture", for: indexPath) as! PictureCell
+        let picture = pictures[indexPath.item]
+        cell.image.image = UIImage(named: picture)
+        cell.label.text = picture
         return cell
     }
     
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if let vc = storyboard?.instantiateViewController(identifier: "Detail") as? DetailViewController {
-            vc.selectedImage = pictures[indexPath.row]
-            vc.viewTitle = "Picture \(indexPath.row + 1) of \(pictures.count)"
+            vc.selectedImage = pictures[indexPath.item]
+            vc.viewTitle = "Picture \(indexPath.item + 1) of \(pictures.count)"
             navigationController?.pushViewController(vc, animated: true)
         }
     }

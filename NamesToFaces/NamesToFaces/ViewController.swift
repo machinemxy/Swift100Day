@@ -37,13 +37,47 @@ class ViewController: UICollectionViewController {
     }
     
     @objc func addNewPerson() {
+        let sheet = UIAlertController(title: "Method", message: nil, preferredStyle: .actionSheet)
+        sheet.addAction(UIAlertAction(title: "From Camera", style: .default, handler: { [unowned self] (_) in
+            self.getImageFromCamera()
+        }))
+        sheet.addAction(UIAlertAction(title: "From Library", style: .default, handler: { [unowned self] (_) in
+            self.getImageFromLibrary()
+        }))
+        sheet.popoverPresentationController?.barButtonItem = navigationItem.leftBarButtonItem
+        present(sheet, animated: true)
+    }
+    
+    func getImageFromCamera() {
         let picker = UIImagePickerController()
+        picker.sourceType = .camera
+        picker.allowsEditing = true
+        picker.delegate = self
+        present(picker, animated: true)
+    }
+    
+    func getImageFromLibrary() {
+        let picker = UIImagePickerController()
+        picker.sourceType = .photoLibrary
         picker.allowsEditing = true
         picker.delegate = self
         present(picker, animated: true)
     }
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let sheet = UIAlertController(title: "Action", message: nil, preferredStyle: .actionSheet)
+        sheet.addAction(UIAlertAction(title: "Rename", style: .default, handler: { [unowned self] _ in
+            self.rename(at: indexPath)
+        }))
+        sheet.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { [unowned self] _ in
+            self.delete(at: indexPath)
+        }))
+        sheet.popoverPresentationController?.sourceView = view
+        sheet.popoverPresentationController?.sourceRect = collectionView.cellForItem(at: indexPath)!.frame
+        present(sheet, animated: true)
+    }
+    
+    func rename(at indexPath: IndexPath) {
         let person = people[indexPath.item]
         
         let ac = UIAlertController(title: "Rename person", message: nil, preferredStyle: .alert)
@@ -55,6 +89,11 @@ class ViewController: UICollectionViewController {
         }))
         ac.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         present(ac, animated: true)
+    }
+    
+    func delete(at indexPath: IndexPath) {
+        people.remove(at: indexPath.item)
+        collectionView.deleteItems(at: [indexPath])
     }
 }
 
