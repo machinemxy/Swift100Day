@@ -9,9 +9,10 @@
 import UIKit
 
 class DetailViewController: UIViewController {
-    @IBOutlet var imageView: UIImageView!
+    @IBOutlet weak var imageView: UIImageView!
     var selectedImage: String?
     var viewTitle: String?
+    @IBOutlet weak var timesLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,6 +29,11 @@ class DetailViewController: UIViewController {
                 }
             }
         }
+        
+        var times = UserDefaults.standard.integer(forKey: selectedImage!)
+        times += 1
+        UserDefaults.standard.set(times, forKey: selectedImage!)
+        timesLabel.text = "Viewd \(times) times"
     }
     
     override func viewWillAppear(_ animated: Bool) {

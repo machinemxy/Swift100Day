@@ -81,20 +81,29 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="oSh-KO-2yZ">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                                <rect key="frame" x="0.0" y="73" width="414" height="823"/>
                             </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Viewed 0 times" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sFh-ht-49E">
+                                <rect key="frame" x="148.5" y="44" width="117" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
+                            <constraint firstItem="sFh-ht-49E" firstAttribute="centerX" secondItem="K8X-H4-552" secondAttribute="centerX" id="3OS-fW-bJ4"/>
                             <constraint firstItem="oSh-KO-2yZ" firstAttribute="leading" secondItem="K8X-H4-552" secondAttribute="leading" id="GeT-0E-CaV"/>
+                            <constraint firstItem="sFh-ht-49E" firstAttribute="top" secondItem="2vi-i7-uZn" secondAttribute="top" id="QKh-hr-ElZ"/>
+                            <constraint firstItem="oSh-KO-2yZ" firstAttribute="top" secondItem="sFh-ht-49E" secondAttribute="bottom" constant="8" id="XXA-AS-ThS"/>
                             <constraint firstAttribute="bottom" secondItem="oSh-KO-2yZ" secondAttribute="bottom" id="aM6-37-qkF"/>
-                            <constraint firstItem="oSh-KO-2yZ" firstAttribute="top" secondItem="K8X-H4-552" secondAttribute="top" id="j2m-26-JPt"/>
                             <constraint firstItem="oSh-KO-2yZ" firstAttribute="trailing" secondItem="K8X-H4-552" secondAttribute="trailing" id="nnh-fB-km9"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="2vi-i7-uZn"/>
                     </view>
                     <connections>
                         <outlet property="imageView" destination="oSh-KO-2yZ" id="btF-hF-qUa"/>
+                        <outlet property="timesLabel" destination="sFh-ht-49E" id="EqC-rx-lPt"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="K4P-P0-pBe" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
