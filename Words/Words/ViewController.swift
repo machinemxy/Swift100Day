@@ -28,12 +28,24 @@ class ViewController: UITableViewController {
             allWords = ["silkworm"]
         }
         
-        startGame()
+        if let storedTitle = UserDefaults.standard.string(forKey: Key.title), !storedTitle.isEmpty {
+            title = storedTitle
+            if let storedList = UserDefaults.standard.object(forKey: Key.list) as? [String] {
+                userdWords = storedList
+            }
+        } else {
+            startGame()
+        }
     }
 
     @objc func startGame() {
         title = allWords.randomElement()
         userdWords.removeAll(keepingCapacity: true)
+        
+        // save
+        UserDefaults.standard.set(title!, forKey: Key.title)
+        UserDefaults.standard.set(userdWords, forKey: Key.list)
+        
         tableView.reloadData()
     }
     
@@ -87,6 +99,7 @@ class ViewController: UITableViewController {
         }
         
         userdWords.insert(lowerAnswer, at: 0)
+        UserDefaults.standard.set(userdWords, forKey: Key.list)
         tableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
     }
     
