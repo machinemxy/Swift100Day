@@ -29,6 +29,8 @@ class GameScene: SKScene {
         }
     }
     
+    let ballArray = ["ballBlue", "ballCyan", "ballGreen", "ballGrey", "ballPurple", "ballRed", "ballYellow"]
+    
     override func didMove(to view: SKView) {
         let background = SKSpriteNode(imageNamed: "background")
         background.position = CGPoint(x:512, y:384)
@@ -71,7 +73,8 @@ class GameScene: SKScene {
             editingMode.toggle()
         } else {
             if editingMode {
-                // create a box
+                guard location.y < 600 else { return }
+                
                 let size = CGSize(width: Int.random(in: 16...128), height: 16)
                 let box = SKSpriteNode(color: UIColor(displayP3Red: CGFloat.random(in: 0...1), green: CGFloat.random(in: 0...1), blue: CGFloat.random(in: 0...1), alpha: 1), size: size)
                 box.zRotation = CGFloat.random(in: 0...3)
@@ -80,7 +83,10 @@ class GameScene: SKScene {
                 box.physicsBody?.isDynamic = false
                 addChild(box)
             } else {
-                let ball = SKSpriteNode(imageNamed: "ballRed")
+                guard location.y > 600 else { return }
+                
+                let ballName = ballArray.randomElement()
+                let ball = SKSpriteNode(imageNamed: ballName!)
                 ball.physicsBody = SKPhysicsBody(circleOfRadius: ball.size.width / 2.0)
                 ball.physicsBody?.contactTestBitMask = ball.physicsBody!.collisionBitMask
                 ball.physicsBody?.restitution = 0.4
@@ -138,6 +144,11 @@ class GameScene: SKScene {
     }
     
     func destroy(ball: SKNode) {
+        if let fireParticles = SKEmitterNode(fileNamed: "FireParticles") {
+            fireParticles.position = ball.position
+            addChild(fireParticles)
+        }
+        
         ball.removeFromParent()
     }
     
