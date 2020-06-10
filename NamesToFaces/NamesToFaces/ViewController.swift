@@ -33,8 +33,7 @@ class ViewController: UICollectionViewController {
         
         let person = people[indexPath.item]
         cell.name.text = person.name
-        let path = getDocumentsDirectory().appendingPathComponent(person.image)
-        cell.imageView.image = UIImage(contentsOfFile: path.path)
+        cell.imageView.image = FileManager.default.getImageInDocumentsDirectory(imageName: person.image)
         cell.imageView.layer.borderColor = UIColor.systemGray5.cgColor
         cell.imageView.layer.borderWidth = 2
         cell.imageView.layer.cornerRadius = 3
@@ -73,6 +72,9 @@ class ViewController: UICollectionViewController {
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let sheet = UIAlertController(title: "Action", message: nil, preferredStyle: .actionSheet)
+        sheet.addAction(UIAlertAction(title: "View", style: .default, handler: { [unowned self] _ in
+            self.view(at: indexPath)
+        }))
         sheet.addAction(UIAlertAction(title: "Rename", style: .default, handler: { [unowned self] _ in
             self.rename(at: indexPath)
         }))
@@ -82,6 +84,13 @@ class ViewController: UICollectionViewController {
         sheet.popoverPresentationController?.sourceView = view
         sheet.popoverPresentationController?.sourceRect = collectionView.cellForItem(at: indexPath)!.frame
         present(sheet, animated: true)
+    }
+    
+    func view(at indexPath: IndexPath) {
+        guard let detailVC = self.storyboard?.instantiateViewController(identifier: "detail") as? DetailViewController else { return }
+        let person = people[indexPath.item]
+        detailVC.person = person
+        navigationController?.pushViewController(detailVC, animated: true)
     }
     
     func rename(at indexPath: IndexPath) {
@@ -100,7 +109,10 @@ class ViewController: UICollectionViewController {
     }
     
     func delete(at indexPath: IndexPath) {
+        let imageName = people[indexPath.item].image
+        let imagePath = FileManager.default.getDocumentsDirectory().appendingPathComponent(imageName)
         people.remove(at: indexPath.item)
+        try? FileManager.default.removeItem(at: imagePath)
         self.save()
         collectionView.deleteItems(at: [indexPath])
     }
@@ -117,7 +129,7 @@ extension ViewController: UIImagePickerControllerDelegate, UINavigationControlle
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         guard let image = info[.editedImage] as? UIImage else { return }
         let imageName = UUID().uuidString
-        let imagePath = getDocumentsDirectory().appendingPathComponent(imageName)
+        let imagePath = FileManager.default.getDocumentsDirectory().appendingPathComponent(imageName)
         
         if let jpegData = image.jpegData(compressionQuality: 0.8) {
             try? jpegData.write(to: imagePath)
@@ -129,10 +141,5 @@ extension ViewController: UIImagePickerControllerDelegate, UINavigationControlle
         collectionView.reloadData()
         
         dismiss(animated: true)
-    }
-    
-    func getDocumentsDirectory() -> URL {
-        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-        return paths[0]
     }
 }

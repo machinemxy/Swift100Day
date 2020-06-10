@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		22CBA896249133CD002F6170 /* FileManagerExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22CBA895249133CD002F6170 /* FileManagerExt.swift */; };
+		22CBA898249135FF002F6170 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22CBA897249135FF002F6170 /* DetailViewController.swift */; };
 		22EC35FD248E7C78002F7C60 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22EC35FC248E7C78002F7C60 /* AppDelegate.swift */; };
 		22EC35FF248E7C78002F7C60 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22EC35FE248E7C78002F7C60 /* SceneDelegate.swift */; };
 		22EC3601248E7C78002F7C60 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22EC3600248E7C78002F7C60 /* ViewController.swift */; };
@@ -18,6 +20,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		22CBA895249133CD002F6170 /* FileManagerExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileManagerExt.swift; sourceTree = "<group>"; };
+		22CBA897249135FF002F6170 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		22EC35F9248E7C78002F7C60 /* NamesToFaces.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NamesToFaces.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		22EC35FC248E7C78002F7C60 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		22EC35FE248E7C78002F7C60 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -63,9 +67,11 @@
 				22EC35FC248E7C78002F7C60 /* AppDelegate.swift */,
 				22EC35FE248E7C78002F7C60 /* SceneDelegate.swift */,
 				22EC3600248E7C78002F7C60 /* ViewController.swift */,
+				22CBA897249135FF002F6170 /* DetailViewController.swift */,
 				22EC3602248E7C78002F7C60 /* Main.storyboard */,
 				22EC3610248E7F4B002F7C60 /* PersonCell.swift */,
 				22EC3612248E88FA002F7C60 /* Person.swift */,
+				22CBA895249133CD002F6170 /* FileManagerExt.swift */,
 				22EC3605248E7C79002F7C60 /* Assets.xcassets */,
 				22EC3607248E7C79002F7C60 /* LaunchScreen.storyboard */,
 				22EC360A248E7C79002F7C60 /* Info.plist */,
@@ -145,10 +151,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				22EC3613248E88FA002F7C60 /* Person.swift in Sources */,
+				22CBA896249133CD002F6170 /* FileManagerExt.swift in Sources */,
 				22EC3601248E7C78002F7C60 /* ViewController.swift in Sources */,
 				22EC35FD248E7C78002F7C60 /* AppDelegate.swift in Sources */,
 				22EC3611248E7F4B002F7C60 /* PersonCell.swift in Sources */,
 				22EC35FF248E7C78002F7C60 /* SceneDelegate.swift in Sources */,
+				22CBA898249135FF002F6170 /* DetailViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
