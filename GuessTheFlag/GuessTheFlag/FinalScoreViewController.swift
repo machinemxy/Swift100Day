@@ -16,10 +16,16 @@ class FinalScoreViewController: UIViewController {
         super.viewDidLoad()
 
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(shareTapped))
-        
-        if let finalScore = finalScore {
-            finalScoreLabel.text = "Your final score is \(finalScore)."
+        let historyHigh = UserDefaults.standard.integer(forKey: "high")
+        var message = "Your final score is \(finalScore!).\n"
+        if finalScore > historyHigh {
+            message.append("You break the history!!!")
+            UserDefaults.standard.set(finalScore!, forKey: "high")
+        } else {
+            message.append("History high is \(historyHigh)")
         }
+        
+        finalScoreLabel.text = message
     }
     
     @objc func shareTapped() {
