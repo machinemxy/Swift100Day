@@ -20,7 +20,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        title = "Instafilter"
+        title = "CISepiaTone"
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(importPicture))
     }
     
@@ -47,8 +47,14 @@ class ViewController: UIViewController {
     }
     
     @objc func setFilter(action: UIAlertAction) {
-        guard let currentImage = currentImage else { return }
+        guard let currentImage = currentImage else {
+            let ac = UIAlertController(title: "No picture", message: "Please import a picture firsst", preferredStyle: .alert)
+            ac.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            present(ac, animated: true)
+            return
+        }
         guard let actionTitle = action.title else { return }
+        title = action.title
         filter = CIFilter(name: actionTitle)
         let beginImage = CIImage(image: currentImage)
         filter?.setValue(beginImage, forKey: kCIInputImageKey)
@@ -56,7 +62,12 @@ class ViewController: UIViewController {
     }
     
     @IBAction func save(_ sender: Any) {
-        guard let image = imageView.image else { return }
+        guard let image = imageView.image else {
+            let ac = UIAlertController(title: "No picture", message: "Please import a picture firsst", preferredStyle: .alert)
+            ac.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            present(ac, animated: true)
+            return
+        }
 
         UIImageWriteToSavedPhotosAlbum(image, self, #selector(image(_:didFinishSavingWithError:contextInfo:)), nil)
     }
