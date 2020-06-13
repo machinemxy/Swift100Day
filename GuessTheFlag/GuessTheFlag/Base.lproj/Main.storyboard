@@ -24,6 +24,8 @@
                                 <state key="normal" title="Button" image="estonia"/>
                                 <connections>
                                     <action selector="buttonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="rpd-dJ-ERb"/>
+                                    <action selector="buttonTouchedDown:" destination="BYZ-38-t0r" eventType="touchDown" id="vpP-nn-TUb"/>
+                                    <action selector="buttonTouchedOutside:" destination="BYZ-38-t0r" eventType="touchUpOutside" id="pDV-X3-xHw"/>
                                 </connections>
                             </button>
                             <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dLI-1v-Znm">
@@ -35,6 +37,8 @@
                                 <state key="normal" title="Button" image="estonia"/>
                                 <connections>
                                     <action selector="buttonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="KV0-1E-w4J"/>
+                                    <action selector="buttonTouchedDown:" destination="BYZ-38-t0r" eventType="touchDown" id="Pf5-Y2-ecq"/>
+                                    <action selector="buttonTouchedOutside:" destination="BYZ-38-t0r" eventType="touchUpOutside" id="SWl-cL-qEC"/>
                                 </connections>
                             </button>
                             <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="REC-n7-NOi">
@@ -46,6 +50,8 @@
                                 <state key="normal" title="Button" image="estonia"/>
                                 <connections>
                                     <action selector="buttonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="LYW-k2-omp"/>
+                                    <action selector="buttonTouchedDown:" destination="BYZ-38-t0r" eventType="touchDown" id="o7B-FW-I9A"/>
+                                    <action selector="buttonTouchedOutside:" destination="BYZ-38-t0r" eventType="touchUpOutside" id="zs8-GY-XhX"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Score: 0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Jn1-Ek-Ykb">

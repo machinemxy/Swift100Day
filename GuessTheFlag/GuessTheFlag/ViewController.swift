@@ -50,7 +50,23 @@ class ViewController: UIViewController {
         button3.setImage(UIImage(named: countries[2]), for: .normal)
     }
     
+    @IBAction func buttonTouchedDown(_ sender: UIButton) {
+        UIView.animate(withDuration: 0.2, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 5, options: [], animations: {
+            sender.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+        }, completion: nil)
+    }
+    
+    @IBAction func buttonTouchedOutside(_ sender: UIButton) {
+        UIView.animate(withDuration: 0.2, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 5, options: [], animations: {
+            sender.transform = .identity
+        }, completion: nil)
+    }
+    
     @IBAction func buttonTapped(_ sender: UIButton) {
+        UIView.animate(withDuration: 0.2, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 5, options: [], animations: {
+            sender.transform = .identity
+        }, completion: nil)
+        
         var title: String
         
         if correctAnswer == sender.tag {
