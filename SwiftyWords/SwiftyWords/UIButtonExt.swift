@@ -10,7 +10,7 @@ import UIKit
 
 extension UIButton {
     func drawGrayLines() {
-        self.layer.borderColor = UIColor.systemGray.cgColor
+        self.layer.borderColor = UIColor.systemBlue.cgColor
         self.layer.cornerRadius = 10
         self.layer.borderWidth = 1
     }
