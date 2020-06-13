@@ -58,7 +58,7 @@ class ViewController: UIViewController {
         filter = CIFilter(name: actionTitle)
         let beginImage = CIImage(image: currentImage)
         filter?.setValue(beginImage, forKey: kCIInputImageKey)
-        applyProcessing()
+        applyProcessing(animated: false)
     }
     
     @IBAction func save(_ sender: Any) {
@@ -86,10 +86,10 @@ class ViewController: UIViewController {
     }
     
     @IBAction func intensityChanged(_ sender: Any) {
-        applyProcessing()
+        applyProcessing(animated: false)
     }
     
-    private func applyProcessing() {
+    private func applyProcessing(animated: Bool) {
         guard let inputKeys = filter?.inputKeys else { return }
         guard let currentImage = currentImage else { return }
         
@@ -101,7 +101,18 @@ class ViewController: UIViewController {
         guard let image = filter?.outputImage else { return }
         if let cgimg = context.createCGImage(image, from: image.extent) {
             let processedImage = UIImage(cgImage: cgimg)
-            imageView.image = processedImage
+            if animated {
+                UIView.animate(withDuration: 0.5, animations: {
+                    self.imageView.alpha = 0
+                }) { (_) in
+                    self.imageView.image = processedImage
+                    UIView.animate(withDuration: 0.5) {
+                        self.imageView.alpha = 1
+                    }
+                }
+            } else {
+                imageView.image = processedImage
+            }
         }
     }
 }
@@ -114,6 +125,6 @@ extension ViewController: UIImagePickerControllerDelegate & UINavigationControll
         
         let beginImage = CIImage(image: image)
         filter?.setValue(beginImage, forKey: kCIInputImageKey)
-        applyProcessing()
+        applyProcessing(animated: true)
     }
 }
