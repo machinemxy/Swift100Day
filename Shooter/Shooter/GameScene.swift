@@ -9,8 +9,8 @@
 import SpriteKit
 
 class GameScene: SKScene {
-    let timeLimit = 60.0
-    let interval = 0.35
+    let timeLimit = 20.0
+    let interval = 0.5
     
     var bulletNodes = [SKNode]()
     var fireLabel: SKNode!
@@ -20,6 +20,7 @@ class GameScene: SKScene {
     var targetNode: SKNode!
     
     var gameOverTimer: Timer?
+    var enemyAppearTimer: Timer?
     var fingerBeginPoint = CGPoint.zero
     var targetBeginPoint = CGPoint.zero
     
@@ -63,12 +64,27 @@ class GameScene: SKScene {
         // configure target
         targetNode = childNode(withName: "target")
         
+        // start the enemy appear timer
+        enemyAppearTimer = Timer.scheduledTimer(timeInterval: interval, target: self, selector: #selector(enemyAppear), userInfo: nil, repeats: true)
+        
         // start the game over timer
         gameOverTimer = Timer.scheduledTimer(withTimeInterval: timeLimit, repeats: false, block: { [weak self] (_) in
             self?.isGameOver = true
+            self?.enemyAppearTimer?.invalidate()
         })
     }
     
+    override func update(_ currentTime: TimeInterval) {
+        for child in children {
+            guard child.name == "ball", let ball = child as? Ball else { continue }
+            
+            ball.position = CGPoint(x: ball.position.x + ball.pixelPerFrame, y: ball.position.y)
+            
+            if ball.position.x - ball.r * 2 > 512 || ball.position.x + ball.r * 2 < -512 {
+                ball.removeFromParent()
+            }
+        }
+    }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard !isGameOver else { return }
@@ -97,14 +113,22 @@ class GameScene: SKScene {
         }
     }
     
-    override func update(_ currentTime: TimeInterval) {
-        // Called before each frame is rendered
-    }
-    
     private func fire() {
         guard bullets > 0 else { return }
         
         bullets -= 1
+        
+        for child in children {
+            guard child.name == "ball", let ball = child as? Ball else { continue }
+            
+            if targetNode.position.distance(to: ball.position) <= ball.r {
+                let explosion = SKEmitterNode(fileNamed: "explosion")!
+                explosion.position = targetNode.position
+                addChild(explosion)
+                score += ball.score
+                ball.removeFromParent()
+            }
+        }
     }
     
     private func reload() {
@@ -119,5 +143,11 @@ class GameScene: SKScene {
     private func targetMoved(location: CGPoint) {
         let dLocation = CGPoint(x: location.x - fingerBeginPoint.x, y: location.y - fingerBeginPoint.y)
         targetNode.position = CGPoint(x: targetBeginPoint.x + dLocation.x, y: targetBeginPoint.y + dLocation.y)
+    }
+    
+    @objc func enemyAppear() {
+        let ball = Ball()
+        ball.config()
+        addChild(ball)
     }
 }
