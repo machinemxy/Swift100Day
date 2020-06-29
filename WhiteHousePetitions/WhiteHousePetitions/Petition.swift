@@ -13,3 +13,9 @@ struct Petition: Codable {
     var body: String
     var signatureCount: Int
 }
+
+extension Petition: Hashable {
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(title)
+    }
+}

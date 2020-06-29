@@ -22,7 +22,7 @@ class ViewController: UITableViewController {
         } else {
             urlString = "https://www.hackingwithswift.com/samples/petitions-2.json"
         }
-        
+
         DispatchQueue.global(qos: .userInitiated).async { [unowned self] in
             guard let url = URL(string: self.urlString) else {
                 self.showError()
