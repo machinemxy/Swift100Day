@@ -30,6 +30,8 @@ class ViewController: UIViewController {
         button1.layer.borderColor = UIColor.lightGray.cgColor
         button2.layer.borderColor = UIColor.lightGray.cgColor
         button3.layer.borderColor = UIColor.lightGray.cgColor
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Remind", style: .plain, target: self, action: #selector(remindMeToPlay))
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -96,6 +98,40 @@ class ViewController: UIViewController {
             let destination = segue.destination as! FinalScoreViewController
             destination.finalScore = score
         }
+    }
+    
+    @objc func remindMeToPlay() {
+        let center = UNUserNotificationCenter.current()
+        center.requestAuthorization(options: [.alert, .badge, .sound]) { [unowned self] (granted, error) in
+            if granted {
+                center.removeAllPendingNotificationRequests()
+                
+                let content = UNMutableNotificationContent()
+                content.title = "Come to play!"
+                content.body = "It's time to play the game!"
+                content.categoryIdentifier = "alarm"
+                content.sound = .default
+                
+                let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 5, repeats: false)
+
+                let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
+                center.add(request, withCompletionHandler: nil)
+                
+                DispatchQueue.main.async {
+                    self.alert("Remind was set!")
+                }
+            } else {
+                DispatchQueue.main.async {
+                    self.alert("Failed!")
+                }
+            }
+        }
+    }
+    
+    private func alert(_ title: String) {
+        let ac = UIAlertController(title: title, message: "", preferredStyle: .alert)
+        ac.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        present(ac, animated: true)
     }
 }
 
