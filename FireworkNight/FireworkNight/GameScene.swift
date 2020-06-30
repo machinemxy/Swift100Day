@@ -12,6 +12,9 @@ import GameplayKit
 class GameScene: SKScene {
     var gameTimer: Timer?
     var fireworks = [SKNode]()
+    var scoreLabel: SKLabelNode!
+    var gameOverLabel: SKNode!
+    var wave = 3
     
     let leftEdge = -22
     let bottomEdge = -22
@@ -19,11 +22,14 @@ class GameScene: SKScene {
     
     var score = 0 {
         didSet {
-            
+            scoreLabel.text = "Score: \(score)"
         }
     }
     
     override func didMove(to view: SKView) {
+        scoreLabel = (childNode(withName: "score") as! SKLabelNode)
+        gameOverLabel = childNode(withName: "gameOver")
+        
         let background = SKSpriteNode(imageNamed: "background")
         background.position = CGPoint(x: 512, y: 384)
         background.blendMode = .replace
@@ -34,6 +40,12 @@ class GameScene: SKScene {
     }
     
     @objc func launchFireworks() {
+        if wave == 0 {
+            gameTimer?.invalidate()
+            gameOverLabel.isHidden = false
+            return
+        }
+        
         let movementAmount: CGFloat = 1800
         
         switch Int.random(in: 0...3) {
@@ -54,6 +66,8 @@ class GameScene: SKScene {
                 createFirework(xMovement: -movementAmount, x: rightEdge, y: bottomEdge - 200 + i * 100)
             }
         }
+        
+        wave -= 1
     }
     
     func createFirework(xMovement: CGFloat, x: Int, y: Int) {
