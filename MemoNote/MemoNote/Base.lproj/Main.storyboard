@@ -3,6 +3,7 @@
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -50,6 +51,50 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PLA-qT-yPI" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="918.84057971014499" y="-35.491071428571423"/>
+        </scene>
+        <!--Memo Detail View Controller-->
+        <scene sceneID="wsx-yd-6c1">
+            <objects>
+                <viewController storyboardIdentifier="detail" id="5eg-PE-ZGh" customClass="MemoDetailViewController" customModule="MemoNote" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="ezW-ho-faa">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Title" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="oo4-6r-tZb">
+                                <rect key="frame" x="8" y="52" width="398" height="34"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="L4N-8H-Jzg">
+                                <rect key="frame" x="8" y="94" width="398" height="768"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="L4N-8H-Jzg" firstAttribute="leading" secondItem="pKr-XH-ihS" secondAttribute="leading" constant="8" id="Cmh-dy-ThF"/>
+                            <constraint firstItem="pKr-XH-ihS" firstAttribute="trailing" secondItem="oo4-6r-tZb" secondAttribute="trailing" constant="8" id="D3j-ZO-CBY"/>
+                            <constraint firstItem="oo4-6r-tZb" firstAttribute="leading" secondItem="pKr-XH-ihS" secondAttribute="leading" constant="8" id="ES0-SZ-cGA"/>
+                            <constraint firstItem="L4N-8H-Jzg" firstAttribute="top" secondItem="oo4-6r-tZb" secondAttribute="bottom" constant="8" id="QkD-UT-nCb"/>
+                            <constraint firstItem="oo4-6r-tZb" firstAttribute="top" secondItem="pKr-XH-ihS" secondAttribute="top" constant="8" id="pPy-Re-QDS"/>
+                            <constraint firstItem="pKr-XH-ihS" firstAttribute="trailing" secondItem="L4N-8H-Jzg" secondAttribute="trailing" constant="8" id="u4v-Oa-H91"/>
+                            <constraint firstItem="L4N-8H-Jzg" firstAttribute="bottom" secondItem="pKr-XH-ihS" secondAttribute="bottom" id="wvf-wK-0KW"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="pKr-XH-ihS"/>
+                    </view>
+                    <connections>
+                        <outlet property="txtDetail" destination="L4N-8H-Jzg" id="yEh-xV-OIg"/>
+                        <outlet property="txtTitle" destination="oo4-6r-tZb" id="eLf-IG-bxb"/>
+                        <segue destination="dyb-3F-Ln7" kind="unwind" identifier="unwind" unwindAction="didUnwindFromDetailViewWithSegue:" id="BOn-FE-hk0"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="i5R-eZ-QND" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="dyb-3F-Ln7" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="1708.6956521739132" y="-39.508928571428569"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="JPG-aS-zdF">

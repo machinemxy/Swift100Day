@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Memo: Hashable {
+struct Memo: Hashable, Codable {
     var id = UUID().uuidString
     var title = ""
     var detail = ""
