@@ -39,6 +39,10 @@ class MemoDetailViewController: UIViewController {
         
         // set right button
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(showActions))
+        
+        // keyboard related
+        NotificationCenter.default.addObserver(self, selector: #selector(adjustForKeyboard), name: UIResponder.keyboardWillHideNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(adjustForKeyboard), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
     }
     
     @objc func showActions() {
@@ -57,6 +61,8 @@ class MemoDetailViewController: UIViewController {
         ac.addAction(UIAlertAction(title: "Share", style: .default, handler: { [unowned self] (_) in
             self.share()
         }))
+        
+        ac.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         
         ac.popoverPresentationController?.barButtonItem = navigationItem.rightBarButtonItem
         present(ac, animated: true)
@@ -116,5 +122,23 @@ class MemoDetailViewController: UIViewController {
         let avc = UIActivityViewController(activityItems: activityItems, applicationActivities: [])
         avc.popoverPresentationController?.barButtonItem = navigationItem.rightBarButtonItem
         present(avc, animated: true)
+    }
+    
+    @objc func adjustForKeyboard(notification: Notification) {
+        guard let keyboardValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else { return }
+        
+        let keyboardScreenEndFrame = keyboardValue.cgRectValue
+        let keyboardViewEndFrame = view.convert(keyboardScreenEndFrame, from: view.window)
+        
+        if notification.name == UIResponder.keyboardWillHideNotification {
+            txtDetail.contentInset = .zero
+        } else {
+            txtDetail.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardViewEndFrame.height - view.safeAreaInsets.bottom, right: 0)
+        }
+        
+        txtDetail.scrollIndicatorInsets = txtDetail.contentInset
+        
+        let selectedRange = txtDetail.selectedRange
+        txtDetail.scrollRangeToVisible(selectedRange)
     }
 }
