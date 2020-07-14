@@ -399,6 +399,9 @@ class GameScene: SKScene {
             livesImages[1].texture = SKTexture(imageNamed: "sliceLifeGone")
             livesImages[2].texture = SKTexture(imageNamed: "sliceLifeGone")
         }
+        
+        let gameOverNode = childNode(withName: "gameOver")
+        gameOverNode?.isHidden = false
     }
     
     func subtractLife() {
