@@ -15,6 +15,7 @@
 		22A2661D24C3E74200AEEF0D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 22A2661C24C3E74200AEEF0D /* Assets.xcassets */; };
 		22A2662024C3E74200AEEF0D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 22A2661E24C3E74200AEEF0D /* LaunchScreen.storyboard */; };
 		22A2662824C3E7CE00AEEF0D /* level1.txt in Resources */ = {isa = PBXBuildFile; fileRef = 22A2662724C3E7CE00AEEF0D /* level1.txt */; };
+		22CB918824C47C4A000011DF /* level2.txt in Resources */ = {isa = PBXBuildFile; fileRef = 22CB918724C47C4A000011DF /* level2.txt */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 		22A2661F24C3E74200AEEF0D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		22A2662124C3E74200AEEF0D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		22A2662724C3E7CE00AEEF0D /* level1.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = level1.txt; sourceTree = "<group>"; };
+		22CB918724C47C4A000011DF /* level2.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = level2.txt; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,6 +71,7 @@
 				22A2661E24C3E74200AEEF0D /* LaunchScreen.storyboard */,
 				22A2662124C3E74200AEEF0D /* Info.plist */,
 				22A2662724C3E7CE00AEEF0D /* level1.txt */,
+				22CB918724C47C4A000011DF /* level2.txt */,
 			);
 			path = MarbleMaze;
 			sourceTree = "<group>";
@@ -133,6 +136,7 @@
 			files = (
 				22A2662824C3E7CE00AEEF0D /* level1.txt in Resources */,
 				22A2661B24C3E74100AEEF0D /* Main.storyboard in Resources */,
+				22CB918824C47C4A000011DF /* level2.txt in Resources */,
 				22A2661224C3E74100AEEF0D /* GameScene.sks in Resources */,
 				22A2661D24C3E74200AEEF0D /* Assets.xcassets in Resources */,
 				22A2662024C3E74200AEEF0D /* LaunchScreen.storyboard in Resources */,

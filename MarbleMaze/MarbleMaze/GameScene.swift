@@ -15,18 +15,21 @@ enum CollisionTypes: UInt32 {
     case star = 4
     case vortex = 8
     case finish = 16
+    case wrap = 32
 }
 
 class GameScene: SKScene {
     var player: SKSpriteNode!
     var lastTouchPosition: CGPoint?
     var motionManager: CMMotionManager!
-    var scoreLabel: SKLabelNode!
-    var isGameOver = false
+    var scoreLabel: SKLabelNode?
+    var isGameStopped = false
+    var level = 1
+    var wrapEndNode: SKSpriteNode?
     
     var score = 0 {
         didSet {
-            scoreLabel.text = "Score: \(score)"
+            scoreLabel?.text = "Score: \(score)"
         }
     }
     
@@ -47,15 +50,15 @@ class GameScene: SKScene {
         motionManager.startAccelerometerUpdates()
         
         scoreLabel = SKLabelNode(fontNamed: "Chalkduster")
-        scoreLabel.text = "Score: 0"
-        scoreLabel.horizontalAlignmentMode = .left
-        scoreLabel.position = CGPoint(x: 16, y: 16)
-        scoreLabel.zPosition = 2
-        addChild(scoreLabel)
+        scoreLabel?.text = "Score: \(score)"
+        scoreLabel?.horizontalAlignmentMode = .left
+        scoreLabel?.position = CGPoint(x: 16, y: 16)
+        scoreLabel?.zPosition = 2
+        addChild(scoreLabel!)
     }
     
     func loadLevel() {
-        guard let levelURL = Bundle.main.url(forResource: "level1", withExtension: "txt") else {
+        guard let levelURL = Bundle.main.url(forResource: "level\(level)", withExtension: "txt") else {
             fatalError("Could not find level1.txt in the app bundle.")
         }
         guard let levelString = try? String(contentsOf: levelURL) else {
@@ -66,50 +69,20 @@ class GameScene: SKScene {
 
         for (row, line) in lines.reversed().enumerated() {
             for (column, letter) in line.enumerated() {
-                let position = CGPoint(x: (64 * column) + 32, y: (64 * row) + 32)
+                let position = CGPoint(x: (64 * column) + 32, y: (64 * row) - 32)
 
                 if letter == "x" {
-                    let node = SKSpriteNode(imageNamed: "block")
-                    node.position = position
-
-                    node.physicsBody = SKPhysicsBody(rectangleOf: node.size)
-                    node.physicsBody?.categoryBitMask = CollisionTypes.wall.rawValue
-                    node.physicsBody?.isDynamic = false
-                    addChild(node)
+                    createBlock(at: position)
                 } else if letter == "v"  {
-                    let node = SKSpriteNode(imageNamed: "vortex")
-                    node.name = "vortex"
-                    node.position = position
-                    node.run(SKAction.repeatForever(SKAction.rotate(byAngle: .pi, duration: 1)))
-                    node.physicsBody = SKPhysicsBody(circleOfRadius: node.size.width / 2)
-                    node.physicsBody?.isDynamic = false
-
-                    node.physicsBody?.categoryBitMask = CollisionTypes.vortex.rawValue
-                    node.physicsBody?.contactTestBitMask = CollisionTypes.player.rawValue
-                    node.physicsBody?.collisionBitMask = 0
-                    addChild(node)
+                    createVortex(at: position)
                 } else if letter == "s"  {
-                    let node = SKSpriteNode(imageNamed: "star")
-                    node.name = "star"
-                    node.physicsBody = SKPhysicsBody(circleOfRadius: node.size.width / 2)
-                    node.physicsBody?.isDynamic = false
-
-                    node.physicsBody?.categoryBitMask = CollisionTypes.star.rawValue
-                    node.physicsBody?.contactTestBitMask = CollisionTypes.player.rawValue
-                    node.physicsBody?.collisionBitMask = 0
-                    node.position = position
-                    addChild(node)
+                    createStar(at: position)
                 } else if letter == "f"  {
-                    let node = SKSpriteNode(imageNamed: "finish")
-                    node.name = "finish"
-                    node.physicsBody = SKPhysicsBody(circleOfRadius: node.size.width / 2)
-                    node.physicsBody?.isDynamic = false
-
-                    node.physicsBody?.categoryBitMask = CollisionTypes.finish.rawValue
-                    node.physicsBody?.contactTestBitMask = CollisionTypes.player.rawValue
-                    node.physicsBody?.collisionBitMask = 0
-                    node.position = position
-                    addChild(node)
+                    createFinish(at: position)
+                } else if letter == "a" {
+                    createWrapStart(at: position)
+                } else if letter == "b" {
+                    createWrapEnd(at: position)
                 } else if letter == " " {
                     // this is an empty space – do nothing!
                 } else {
@@ -128,9 +101,83 @@ class GameScene: SKScene {
         player.physicsBody?.linearDamping = 0.5
 
         player.physicsBody?.categoryBitMask = CollisionTypes.player.rawValue
-        player.physicsBody?.contactTestBitMask = CollisionTypes.star.rawValue | CollisionTypes.vortex.rawValue | CollisionTypes.finish.rawValue
+        player.physicsBody?.contactTestBitMask = CollisionTypes.star.rawValue | CollisionTypes.vortex.rawValue | CollisionTypes.finish.rawValue | CollisionTypes.wrap.rawValue
         player.physicsBody?.collisionBitMask = CollisionTypes.wall.rawValue
         addChild(player)
+    }
+    
+    func createBlock(at position: CGPoint) {
+        let node = SKSpriteNode(imageNamed: "block")
+        node.position = position
+
+        node.physicsBody = SKPhysicsBody(rectangleOf: node.size)
+        node.physicsBody?.categoryBitMask = CollisionTypes.wall.rawValue
+        node.physicsBody?.isDynamic = false
+        addChild(node)
+    }
+    
+    func createVortex(at position: CGPoint) {
+        let node = SKSpriteNode(imageNamed: "vortex")
+        node.name = "vortex"
+        node.position = position
+        node.run(SKAction.repeatForever(SKAction.rotate(byAngle: .pi, duration: 1)))
+        node.physicsBody = SKPhysicsBody(circleOfRadius: node.size.width / 2)
+        node.physicsBody?.isDynamic = false
+
+        node.physicsBody?.categoryBitMask = CollisionTypes.vortex.rawValue
+        node.physicsBody?.contactTestBitMask = CollisionTypes.player.rawValue
+        node.physicsBody?.collisionBitMask = 0
+        addChild(node)
+    }
+    
+    func createStar(at position: CGPoint) {
+        let node = SKSpriteNode(imageNamed: "star")
+        node.name = "star"
+        node.physicsBody = SKPhysicsBody(circleOfRadius: node.size.width / 2)
+        node.physicsBody?.isDynamic = false
+
+        node.physicsBody?.categoryBitMask = CollisionTypes.star.rawValue
+        node.physicsBody?.contactTestBitMask = CollisionTypes.player.rawValue
+        node.physicsBody?.collisionBitMask = 0
+        node.position = position
+        addChild(node)
+    }
+    
+    func createFinish(at position: CGPoint) {
+        let node = SKSpriteNode(imageNamed: "finish")
+        node.name = "finish"
+        node.physicsBody = SKPhysicsBody(circleOfRadius: node.size.width / 2)
+        node.physicsBody?.isDynamic = false
+
+        node.physicsBody?.categoryBitMask = CollisionTypes.finish.rawValue
+        node.physicsBody?.contactTestBitMask = CollisionTypes.player.rawValue
+        node.physicsBody?.collisionBitMask = 0
+        node.position = position
+        addChild(node)
+    }
+    
+    func createWrapStart(at position: CGPoint) {
+        let node = SKSpriteNode(imageNamed: "slotGlowGood")
+        node.name = "wrapStart"
+        node.size = CGSize(width: 108, height: 108)
+        node.position = position
+        node.run(SKAction.repeatForever(SKAction.rotate(byAngle: .pi, duration: 1)))
+        node.physicsBody = SKPhysicsBody(circleOfRadius: node.size.width / 2)
+        node.physicsBody?.isDynamic = false
+
+        node.physicsBody?.categoryBitMask = CollisionTypes.wrap.rawValue
+        node.physicsBody?.contactTestBitMask = CollisionTypes.player.rawValue
+        node.physicsBody?.collisionBitMask = 0
+        addChild(node)
+    }
+    
+    func createWrapEnd(at position: CGPoint) {
+        let node = SKSpriteNode(imageNamed: "slotGlowBad")
+        node.size = CGSize(width: 108, height: 108)
+        node.position = position
+        node.run(SKAction.repeatForever(SKAction.rotate(byAngle: .pi, duration: 1)))
+        addChild(node)
+        self.wrapEndNode = node
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -150,7 +197,7 @@ class GameScene: SKScene {
     }
     
     override func update(_ currentTime: TimeInterval) {
-        guard isGameOver == false else { return }
+        guard isGameStopped == false else { return }
         
         #if targetEnvironment(simulator)
             if let currentTouch = lastTouchPosition {
@@ -180,7 +227,7 @@ extension GameScene: SKPhysicsContactDelegate {
     func playerCollided(with node: SKNode) {
         if node.name == "vortex" {
             player.physicsBody?.isDynamic = false
-            isGameOver = true
+            isGameStopped = true
             score -= 1
 
             let move = SKAction.move(to: node.position, duration: 0.25)
@@ -188,16 +235,38 @@ extension GameScene: SKPhysicsContactDelegate {
             let remove = SKAction.removeFromParent()
             let sequence = SKAction.sequence([move, scale, remove])
 
-            player.run(sequence) { [weak self] in
-                self?.createPlayer()
-                self?.isGameOver = false
+            player.run(sequence) { [unowned self] in
+                self.createPlayer()
+                self.isGameStopped = false
             }
         } else if node.name == "star" {
             node.removeFromParent()
             score += 1
         } else if node.name == "finish" {
-            // next level?
-            print("Level Cleared!")
+            guard let nextScene = SKScene(fileNamed: "GameScene") as? GameScene else { return }
+            nextScene.scaleMode = scaleMode
+            nextScene.score = score
+            if level == 1 {
+                nextScene.level = 2
+            } else {
+                nextScene.level = 1
+            }
+            let transition = SKTransition.flipVertical(withDuration: 0.5)
+            view?.presentScene(nextScene, transition: transition)
+        } else if node.name == "wrapStart" {
+            player.physicsBody?.isDynamic = false
+            isGameStopped = true
+            
+            let move = SKAction.move(to: node.position, duration: 0.25)
+            let scaleDown = SKAction.scale(to: 0.0001, duration: 0.25)
+            let wrap = SKAction.move(to: wrapEndNode!.position, duration: 0)
+            let scaleUp = SKAction.scale(to: 1, duration: 0.25)
+            let sequence = SKAction.sequence([move, scaleDown, wrap, scaleUp])
+
+            player.run(sequence) { [unowned self] in
+                self.player.physicsBody?.isDynamic = true
+                self.isGameStopped = false
+            }
         }
     }
 }
