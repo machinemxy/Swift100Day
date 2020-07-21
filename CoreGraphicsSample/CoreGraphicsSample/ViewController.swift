@@ -20,7 +20,7 @@ class ViewController: UIViewController {
     @IBAction func redraw(_ sender: Any) {
         currentDrawType += 1
 
-        if currentDrawType > 5 {
+        if currentDrawType > 7 {
             currentDrawType = 0
         }
 
@@ -37,6 +37,10 @@ class ViewController: UIViewController {
             drawLines()
         case 5:
             drawImagesAndText()
+        case 6:
+            drawEmoji()
+        case 7:
+            drawTWIN()
         default:
             break
         }
@@ -172,6 +176,60 @@ class ViewController: UIViewController {
         }
 
         // 6
+        imageView.image = img
+    }
+    
+    func drawEmoji() {
+        let renderer = UIGraphicsImageRenderer(size: CGSize(width: 512, height: 512))
+
+        let img = renderer.image { ctx in
+            let rectangle = CGRect(x: 0, y: 0, width: 512, height: 512).insetBy(dx: 5, dy: 5)
+            
+            ctx.cgContext.setFillColor(UIColor.orange.cgColor)
+            ctx.cgContext.setStrokeColor(UIColor.black.cgColor)
+            ctx.cgContext.setLineWidth(10)
+            ctx.cgContext.addEllipse(in: rectangle)
+            ctx.cgContext.move(to: CGPoint(x: 128, y: 384))
+            ctx.cgContext.addLine(to: CGPoint(x: 384, y: 384))
+            ctx.cgContext.drawPath(using: .fillStroke)
+            
+            ctx.cgContext.setFillColor(UIColor.black.cgColor)
+            ctx.cgContext.fillEllipse(in: CGRect(x: 96, y: 96, width: 64, height: 64))
+            ctx.cgContext.fillEllipse(in: CGRect(x: 352, y: 96, width: 64, height: 64))
+        }
+
+        imageView.image = img
+    }
+    
+    func drawTWIN() {
+        let renderer = UIGraphicsImageRenderer(size: CGSize(width: 512, height: 512))
+
+        let img = renderer.image { ctx in
+            let pen = ctx.cgContext
+            pen.move(to: CGPoint(x: 0, y: 192))
+            pen.addLine(to: CGPoint(x: 128, y: 192))
+            pen.addLine(to: CGPoint(x: 160, y: 320))
+            pen.addLine(to: CGPoint(x: 192, y: 192))
+            pen.addLine(to: CGPoint(x: 224, y: 320))
+            pen.addLine(to: CGPoint(x: 256, y: 192))
+            pen.move(to: CGPoint(x: 64, y: 192))
+            pen.addLine(to: CGPoint(x: 64, y: 320))
+            pen.move(to: CGPoint(x: 288, y: 192))
+            pen.addLine(to: CGPoint(x: 352, y: 192))
+            pen.move(to: CGPoint(x: 288, y: 320))
+            pen.addLine(to: CGPoint(x: 352, y: 320))
+            pen.move(to: CGPoint(x: 320, y: 192))
+            pen.addLine(to: CGPoint(x: 320, y: 320))
+            pen.move(to: CGPoint(x: 384, y: 320))
+            pen.addLine(to: CGPoint(x: 384, y: 192))
+            pen.addLine(to: CGPoint(x: 507, y: 320))
+            pen.addLine(to: CGPoint(x: 507, y: 192))
+            
+            pen.setStrokeColor(UIColor.black.cgColor)
+            pen.setLineWidth(10)
+            pen.strokePath()
+        }
+
         imageView.image = img
     }
 }
