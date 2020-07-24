@@ -11,6 +11,7 @@ import LocalAuthentication
 
 class ViewController: UIViewController {
     @IBOutlet weak var secret: UITextView!
+    @IBOutlet weak var doneButton: UIBarButtonItem!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,8 +38,23 @@ class ViewController: UIViewController {
                 }
             }
         } else {
-            let ac = UIAlertController(title: "Biometry unavailable", message: "Your device is not configured for biometric authentication.", preferredStyle: .alert)
-            ac.addAction(UIAlertAction(title: "OK", style: .default))
+            let ac = UIAlertController(title: "Enter password!", message: nil, preferredStyle: .alert)
+            ac.addTextField { (textField) in
+                textField.textContentType = .password
+                textField.isSecureTextEntry = true
+            }
+            ac.addAction(UIAlertAction(title: "OK", style: .default, handler: { [unowned ac, unowned self] (action) in
+                guard let input = ac.textFields?.first?.text else { return }
+                guard let password = KeychainWrapper.standard.string(forKey: "Password") else { return }
+                if input == password {
+                    self.unlockSecretMessage()
+                } else {
+                    let ac2 = UIAlertController(title: "Wrong password", message: "Please try again.", preferredStyle: .alert)
+                    ac2.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                    self.present(ac2, animated: true)
+                }
+            }))
+            ac.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
             self.present(ac, animated: true)
         }
     }
@@ -63,17 +79,19 @@ class ViewController: UIViewController {
     
     func unlockSecretMessage() {
         secret.isHidden = false
+        doneButton.isEnabled = true
         title = "Secret stuff!"
 
         secret.text = KeychainWrapper.standard.string(forKey: "SecretMessage") ?? ""
     }
     
-    @objc func saveSecretMessage() {
+    @IBAction func saveSecretMessage() {
         guard secret.isHidden == false else { return }
 
         KeychainWrapper.standard.set(secret.text, forKey: "SecretMessage")
         secret.resignFirstResponder()
         secret.isHidden = true
+        doneButton.isEnabled = false
         title = "Nothing to see here"
     }
 }

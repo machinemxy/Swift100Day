@@ -14,7 +14,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        // set default password
+        if KeychainWrapper.standard.string(forKey: "Password") == nil {
+            KeychainWrapper.standard.set("1234", forKey: "Password")
+        }
+        
         return true
     }
 
