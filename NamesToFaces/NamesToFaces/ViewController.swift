@@ -7,14 +7,24 @@
 //
 
 import UIKit
+import LocalAuthentication
 
 class ViewController: UICollectionViewController {
     var people = [Person]()
+    var isLocked = true {
+        didSet {
+            navigationItem.leftBarButtonItem?.isEnabled = !isLocked
+            navigationItem.rightBarButtonItem?.isEnabled = isLocked
+            collectionView.reloadData()
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addNewPerson))
+        navigationItem.leftBarButtonItem?.isEnabled = false
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Unlock", style: .plain, target: self, action: #selector(unlock))
         
         let defaults = UserDefaults.standard
         if let savedPeople = defaults.object(forKey: "people") as? Data {
@@ -22,9 +32,39 @@ class ViewController: UICollectionViewController {
                 people = decodedPeople
             }
         }
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(lock), name: UIApplication.willResignActiveNotification, object: nil)
+    }
+    
+    @objc func unlock() {
+        let context = LAContext()
+        var error: NSError?
+        
+        if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
+            let reason = "Identify yourself!"
+            context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { [weak self] (success, authenticationError) in
+                DispatchQueue.main.async {
+                    if success {
+                        self?.isLocked = false
+                    }
+                }
+            }
+        } else {
+            let ac = UIAlertController(title: "Not supported", message: "Your device is not supported. Please give up using this app.", preferredStyle: .alert)
+            ac.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            present(ac, animated: true)
+        }
+    }
+    
+    @objc func lock() {
+        isLocked = true
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        if isLocked {
+            return 0
+        }
+        
         return people.count
     }
     
