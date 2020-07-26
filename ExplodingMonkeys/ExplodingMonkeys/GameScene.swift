@@ -22,12 +22,44 @@ class GameScene: SKScene {
     var player2: SKSpriteNode!
     var banana: SKSpriteNode!
     var currentPlayer = 1
+    var life1 = 3
+    var life2 = 3
+    var life1Node: SKLabelNode!
+    var life2Node: SKLabelNode!
     
     override func didMove(to view: SKView) {
         backgroundColor = UIColor(hue: 0.669, saturation: 0.99, brightness: 0.67, alpha: 1)
 
         createBuildings()
         createPlayers()
+        
+        life1Node = (childNode(withName: "life1") as! SKLabelNode)
+        life2Node = (childNode(withName: "life2") as! SKLabelNode)
+        updateLifeNodes()
+        
+        let wind = Int.random(in: -3...3)
+        physicsWorld.gravity = CGVector(dx: wind, dy: -10)
+        let windNode = childNode(withName: "wind") as? SKLabelNode
+        var windString = "Wind: "
+        if wind == 0 {
+            windString.append("None")
+        } else {
+            if wind > 0 {
+                windString.append("→")
+            } else {
+                windString.append("←")
+            }
+            
+            let absWind = abs(wind)
+            if absWind == 1 {
+                windString.append("Weak")
+            } else if absWind == 2 {
+                windString.append("Normal")
+            } else {
+                windString.append("Strong")
+            }
+        }
+        windNode?.text = windString
         
         physicsWorld.contactDelegate = self
     }
@@ -150,16 +182,31 @@ class GameScene: SKScene {
         player.removeFromParent()
         banana.removeFromParent()
 
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-            let newGame = GameScene(size: self.size)
-            newGame.viewController = self.viewController
-            self.viewController?.currentGame = newGame
+        if player.name == "player1" {
+            life1 -= 1
+        } else {
+            life2 -= 1
+        }
+        updateLifeNodes()
+        
+        if life1 <= 0 || life2 <= 0 {
+            let gameOverNode = childNode(withName: "gameOver")
+            gameOverNode?.isHidden = false
+        } else {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                let newGame = SKScene(fileNamed: "GameScene") as! GameScene
+                newGame.scaleMode = .aspectFill
+                newGame.life1 = self.life1
+                newGame.life2 = self.life2
+                newGame.viewController = self.viewController
+                self.viewController?.currentGame = newGame
 
-            self.changePlayer()
-            newGame.currentPlayer = self.currentPlayer
+                self.changePlayer()
+                newGame.currentPlayer = self.currentPlayer
 
-            let transition = SKTransition.doorway(withDuration: 1.5)
-            self.view?.presentScene(newGame, transition: transition)
+                let transition = SKTransition.doorway(withDuration: 1.5)
+                self.view?.presentScene(newGame, transition: transition)
+            }
         }
     }
     
@@ -188,6 +235,20 @@ class GameScene: SKScene {
         banana = nil
 
         changePlayer()
+    }
+    
+    func updateLifeNodes() {
+        var life1String = ""
+        for _ in stride(from: 0, to: life1, by: 1) {
+            life1String.append("❤️")
+        }
+        life1Node.text = life1String
+        
+        var life2String = ""
+        for _ in stride(from: 0, to: life2, by: 1) {
+            life2String.append("❤️")
+        }
+        life2Node.text = life2String
     }
 }
 

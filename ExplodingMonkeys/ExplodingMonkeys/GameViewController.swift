@@ -18,6 +18,10 @@ class GameViewController: UIViewController {
     @IBOutlet weak var velocityLabel: UILabel!
     @IBOutlet weak var launchButton: UIButton!
     @IBOutlet weak var playerNumber: UILabel!
+    var player1angle: Float = 45
+    var player2angle: Float = 45
+    var player1velocity: Float = 125
+    var player2velocity: Float = 125
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -77,6 +81,15 @@ class GameViewController: UIViewController {
         velocityLabel.isHidden = true
 
         launchButton.isHidden = true
+        
+        guard let currentPlayer = currentGame?.currentPlayer else { fatalError("no current game!") }
+        if currentPlayer == 1 {
+            player1angle = angleSlider.value
+            player1velocity = velocitySlider.value
+        } else {
+            player2angle = angleSlider.value
+            player2velocity = velocitySlider.value
+        }
 
         currentGame?.launch(angle: Int(angleSlider.value), velocity: Int(velocitySlider.value))
     }
@@ -84,9 +97,15 @@ class GameViewController: UIViewController {
     func activatePlayer(number: Int) {
         if number == 1 {
             playerNumber.text = "<<< PLAYER ONE"
+            angleSlider.setValue(player1angle, animated: false)
+            velocitySlider.setValue(player1velocity, animated: false)
         } else {
             playerNumber.text = "PLAYER TWO >>>"
+            angleSlider.setValue(player2angle, animated: false)
+            velocitySlider.setValue(player2velocity, animated: false)
         }
+        angleChanged(angleSlider!)
+        velocityChanged(velocitySlider!)
 
         angleSlider.isHidden = false
         angleLabel.isHidden = false
