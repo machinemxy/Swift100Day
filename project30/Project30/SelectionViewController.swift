@@ -24,13 +24,15 @@ class SelectionViewController: UITableViewController {
 		// load all the JPEGs into our array
 		let fm = FileManager.default
 
-		if let tempItems = try? fm.contentsOfDirectory(atPath: Bundle.main.resourcePath!) {
-			for item in tempItems {
-				if item.range(of: "Large") != nil {
-					items.append(item)
-				}
-			}
-		}
+        if let path = Bundle.main.resourcePath {
+            if let tempItems = try? fm.contentsOfDirectory(atPath: path) {
+                for item in tempItems {
+                    if item.range(of: "Large") != nil {
+                        items.append(item)
+                    }
+                }
+            }
+        }
     }
 
 	override func viewWillAppear(_ animated: Bool) {
@@ -61,22 +63,37 @@ class SelectionViewController: UITableViewController {
 		// find the image for this cell, and load its thumbnail
 		let currentImage = items[indexPath.row % items.count]
 		let imageRootName = currentImage.replacingOccurrences(of: "Large", with: "Thumb")
-		let path = Bundle.main.path(forResource: imageRootName, ofType: nil)!
-		let original = UIImage(contentsOfFile: path)!
+        
+        let documentDirectory = getDocumentsDirectory()
+        let cacheImagePath = documentDirectory.appendingPathComponent(imageRootName)
+        if FileManager.default.fileExists(atPath: cacheImagePath.path) {
+            cell.imageView?.image = UIImage(contentsOfFile: cacheImagePath.path)
+            print("load from cache")
+        } else {
+            let path = Bundle.main.path(forResource: imageRootName, ofType: nil)!
+            let original = UIImage(contentsOfFile: path)!
 
-        let renderRect = CGRect(origin: .zero, size: CGSize(width: 90, height: 90))
-		let renderer = UIGraphicsImageRenderer(size: renderRect.size)
+            let renderRect = CGRect(origin: .zero, size: CGSize(width: 90, height: 90))
+            let renderer = UIGraphicsImageRenderer(size: renderRect.size)
 
-		let rounded = renderer.image { ctx in
-			ctx.cgContext.addEllipse(in: renderRect)
-			ctx.cgContext.clip()
+            let rounded = renderer.image { ctx in
+                ctx.cgContext.addEllipse(in: renderRect)
+                ctx.cgContext.clip()
 
-			original.draw(in: renderRect)
-		}
+                original.draw(in: renderRect)
+            }
 
-		cell.imageView?.image = rounded
-
+            cell.imageView?.image = rounded
+            
+            // save cache
+            if let pngData = rounded.pngData() {
+                try? pngData.write(to: cacheImagePath)
+                print("save to cache")
+            }
+        }
+        
 		// give the images a nice shadow to make them look a bit more dramatic
+        let renderRect = CGRect(origin: .zero, size: CGSize(width: 90, height: 90))
 		cell.imageView?.layer.shadowColor = UIColor.black.cgColor
 		cell.imageView?.layer.shadowOpacity = 1
 		cell.imageView?.layer.shadowRadius = 10
@@ -98,6 +115,11 @@ class SelectionViewController: UITableViewController {
 		// mark us as not needing a counter reload when we return
 		dirty = false
 
-		navigationController!.pushViewController(vc, animated: true)
+		navigationController?.pushViewController(vc, animated: true)
 	}
+    
+    func getDocumentsDirectory() -> URL {
+        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+        return paths[0]
+    }
 }
